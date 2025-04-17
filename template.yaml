@@ -1,0 +1,21 @@
+
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: SAM template for Lambda Layer
+
+Resources:
+  MyLambdaLayer:
+    Type: AWS::Serverless::LayerVersion
+    Properties:
+      LayerName: my-shared-layer
+      Description: Shared Python packages
+      ContentUri: layer/
+      CompatibleRuntimes:
+        - python3.11
+
+Outputs:
+  LayerVersion:
+    Description: "The ARN of the Lambda Layer"
+    Value: !Ref MyLambdaLayer
+    Export:
+      Name: LayerVersionArn
