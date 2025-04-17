@@ -9,7 +9,7 @@ phases:
     runtime-versions:
       python: 3.11
     commands:
-      - pip install aws-sam-cli jq
+      - pip install aws-sam-cli
 
   pre_build:
     commands:
@@ -19,11 +19,12 @@ phases:
 
   build:
     commands:
+      - echo "Running sam build..."
       - sam build
 
   post_build:
     commands:
-      - echo "Deploying SAM application (Lambda Layer)..."
+      - echo "Deploying Lambda Layer with sam deploy..."
       - sam deploy \
           --stack-name lambda-layer-only \
           --region $AWS_DEFAULT_REGION \
@@ -31,22 +32,3 @@ phases:
           --no-confirm-changeset \
           --no-fail-on-empty-changeset \
           --resolve-s3
-          --no-interactive
-
-      - echo "Fetching new Lambda Layer ARN from CloudFormation export..."
-      - LAYER_ARN=$(aws cloudformation list-exports \
-          --query "Exports[?Name=='LayerVersionArn'].Value" \
-          --output text)
-
-      - echo "LAYER_ARN=$LAYER_ARN"
-
-      - echo "Fetching existing layers for $FUNCTION_NAME..."
-      - EXISTING_LAYERS=$(aws lambda get-function-configuration \
-          --function-name $FUNCTION_NAME \
-          --query 'Layers[*].Arn' \
-          --output text)
-
-      - echo "Updating Lambda function with new layer..."
-      - aws lambda update-function-configuration \
-          --function-name $FUNCTION_NAME \
-          --layers $LAYER_ARN $EXISTING_LAYERS
