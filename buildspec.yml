@@ -31,6 +31,7 @@ phases:
           --no-confirm-changeset \
           --no-fail-on-empty-changeset \
           --resolve-s3
+          --no-interactive
 
       - echo "Fetching new Lambda Layer ARN from CloudFormation export..."
       - LAYER_ARN=$(aws cloudformation list-exports \
