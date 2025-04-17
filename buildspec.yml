@@ -19,16 +19,22 @@ phases:
 
   build:
     commands:
-      - echo "Running sam build..."
+      - echo "Building SAM application..."
       - sam build
 
   post_build:
     commands:
-      - echo "Deploying Lambda Layer with sam deploy..."
+      - echo "Deploying SAM stack..."
       - sam deploy \
-          --stack-name lambda-layer-only \
+          --stack-name sam-codebuild-test \
           --region $AWS_DEFAULT_REGION \
           --capabilities CAPABILITY_IAM \
           --no-confirm-changeset \
           --no-fail-on-empty-changeset \
-          --resolve-s3
+          --resolve-s3 \
+          --no-interactive
+
+artifacts:
+  files:
+    - template.yaml
+    - .aws-sam/**/*
