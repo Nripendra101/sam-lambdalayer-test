@@ -12,10 +12,6 @@ phases:
 
   build:
     commands:
-      - echo "Zipping layer..."
-      - cd layer
-      - zip -r ../layer.zip .
-      - cd ..
       - echo "Running SAM build..."
       - sam build
 
