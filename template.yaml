@@ -1,21 +1,25 @@
-
 AWSTemplateFormatVersion: '2010-09-09'
 Transform: AWS::Serverless-2016-10-31
-Description: SAM template for Lambda Layer
+Description: SAM Template for Lambda Function and Layer
 
 Resources:
+  # Lambda Layer definition
   MyLambdaLayer:
     Type: AWS::Serverless::LayerVersion
     Properties:
       LayerName: my-shared-layer
       Description: Shared Python packages
-      ContentUri: layer/
+      ContentUri: ./layer.zip  # Path to the zipped layer file or S3 bucket location
       CompatibleRuntimes:
         - python3.11
-
+      LicenseInfo: "MIT"
+  
+  
 Outputs:
   LayerVersion:
     Description: "The ARN of the Lambda Layer"
     Value: !Ref MyLambdaLayer
     Export:
       Name: LayerVersionArn
+
+  
