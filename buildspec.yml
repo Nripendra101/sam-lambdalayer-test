@@ -22,4 +22,4 @@ phases:
   post_build:
     commands:
       - echo "Deploying with SAM..."
-      - sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name lambda-layer-stack --capabilities CAPABILITY_IAM --region us-east-2
+      - sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name lambda-layer-test --capabilities CAPABILITY_IAM --region us-east-2
